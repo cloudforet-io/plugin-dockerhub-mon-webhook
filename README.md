@@ -17,7 +17,7 @@
 > SpaceONE already supports various external monitoring ecosystems in the form of plug-ins   
 > (Prometheus, Grafana, Zabbix, etc), and Dockerhub webhook is one of them, which more reliably supports events of Dockerhub alert services.
 
-Find us also at [Dockerhub](https://hub.docker.com/repository/docker/spaceone/plugin-aws-sns-mon-webhook)
+Find us also at [Dockerhub](https://github.com/spaceone-dev/plugin-dockerhub-mon-webhook)
 > Latest stable version : 1.0.0
 
 Please contact us if you need any further information. (support@spaceone.dev)
