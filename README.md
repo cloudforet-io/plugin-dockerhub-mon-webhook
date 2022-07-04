@@ -13,7 +13,7 @@
 **Webhook plugin for Dockerhub**
 
 > SpaceONE's [plugin-dockerhub-mon-webhook](https://github.com/spaceone-dev/plugin-dockerhub-mon-webhook) 
- is a tool that can integrate and manage events of various patterns from Dockerhub.   
+ is a tool that can integrate and manage events from Dockerhub.   
 > SpaceONE already supports various external monitoring ecosystems in the form of plug-ins   
 > (Prometheus, Grafana, Zabbix, etc), and Dockerhub webhook is one of them, which more reliably supports events of Dockerhub alert services.
 
