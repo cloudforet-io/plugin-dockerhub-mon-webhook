@@ -1,12 +1,7 @@
 from schematics import Model
-from schematics.types import StringType, ModelType, DateTimeType, DictType
+from schematics.types import StringType, DateTimeType, DictType
 
 __all__ = ['EventModel']
-
-
-class DockerhubAdditionalInfo(Model):
-    version = StringType()
-    repository = StringType()
 
 
 class EventModel(Model):
@@ -15,9 +10,7 @@ class EventModel(Model):
     title = StringType(required=True)
     description = StringType(default='')
     severity = StringType(choices=['CRITICAL', 'ERROR', 'WARNING', 'INFO', 'NOT_AVAILABLE'], default=None)
-    resource = DictType(StringType, default={})
     rule = StringType(default='')
+    resource = DictType(StringType, default={})
+    additional_info = DictType(StringType, default={})
     occurred_at = DateTimeType()
-    provider = StringType(default='aws')
-    account = StringType(default='')
-    additional_info = ModelType(DockerhubAdditionalInfo)

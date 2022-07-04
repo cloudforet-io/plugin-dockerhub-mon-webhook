@@ -11,16 +11,15 @@ def EventInfo(event_Info_data: EventModel):
     info = {
         'event_key': event_Info_data['event_key'],
         'event_type': event_Info_data['event_type'],
-        'description': event_Info_data.get('description'),
         'title': event_Info_data['title'],
+        'description': event_Info_data.get('description'),
         'severity': event_Info_data['severity'],
         'resource': change_struct_type(event_Info_data['resource']),
         'rule': event_Info_data.get('rule'),
         'occurred_at': utils.datetime_to_iso8601(event_Info_data.get('occurred_at')),
-        'provider': event_Info_data.get('provider'),
-        'account': event_Info_data.get('account'),
         'additional_info': change_struct_type(event_Info_data.get('additional_info'))
     }
+
     return event_pb2.EventInfo(**info)
 
 

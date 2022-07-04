@@ -3,7 +3,6 @@ from spaceone.core.pygrpc import BaseAPI
 
 
 class Event(BaseAPI, event_pb2_grpc.EventServicer):
-
     pb2 = event_pb2
     pb2_grpc = event_pb2_grpc
 
