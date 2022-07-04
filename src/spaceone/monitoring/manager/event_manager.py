@@ -49,7 +49,6 @@ class EventManager(BaseManager):
             'repo_name': raw_data['repository']['repo_name'],
             'repo_url':raw_data['repository']['repo_url'],
             'tag': raw_data['push_data']['tag'],
-            'rule': raw_data['repository']['full_description'],
             'description': f"{raw_data['repository']['repo_name']}:{raw_data['push_data']['tag']} has been pushed",
             'namespace': raw_data['repository']['namespace'],
             'pushed_at': datetime.fromtimestamp(raw_data['push_data']['pushed_at']).isoformat()
@@ -78,9 +77,8 @@ class EventManager(BaseManager):
         tag = info['tag']
         description = info['description']
         namespace = info['namespace']
-        rule = info['rule']
         occurred_at = info['pushed_at']
-        title = repo_name
+        title = f'New image pushed to {repo_name}.'
 
         return {
             'event_key': event_key,
@@ -88,7 +86,7 @@ class EventManager(BaseManager):
             'title': title,
             'description': description,
             'severity': 'INFO',
-            'rule': rule,
+            'rule': '',
             'resource': {
                 'name': f'{repo_name}:{tag}',
             },
