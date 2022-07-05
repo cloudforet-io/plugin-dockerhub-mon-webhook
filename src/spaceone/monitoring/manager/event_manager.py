@@ -44,23 +44,27 @@ class EventManager(BaseManager):
             }
         """
 
-        base_info = {
-            'event_key': self._get_event_key(raw_data['repository']['repo_name']),
-            'repo_name': raw_data['repository']['repo_name'],
-            'repo_url':raw_data['repository']['repo_url'],
-            'tag': raw_data['push_data']['tag'],
-            'description': f"{raw_data['repository']['repo_name']}:{raw_data['push_data']['tag']} has been pushed",
-            'namespace': raw_data['repository']['namespace'],
-            'pushed_at': datetime.fromtimestamp(raw_data['push_data']['pushed_at']).isoformat()
-        }
-
+        base_info = self._generate_base_info(raw_data)
         generated_data = self._generate_data(base_info)
-        _LOGGER.debug(generated_data)
+
+        _LOGGER.debug(f'[parse] {generated_data}')
 
         return [self._validate_data(generated_data)]
 
+    def _generate_base_info(self, raw_data: dict) -> dict:
+
+        return {
+            'repo_name': raw_data['repository']['repo_name'],
+            'repo_url': raw_data['repository']['repo_url'],
+            'tag': raw_data['push_data']['tag'],
+            'event_key': self._get_event_key(raw_data['repository']['repo_name'], raw_data['push_data']['tag']),
+            'namespace': raw_data['repository']['namespace'],
+            'pushed_at': datetime.fromtimestamp(raw_data['push_data']['pushed_at']).isoformat(),
+            'pusher': raw_data['push_data']['pusher']
+        }
+
     @staticmethod
-    def _validate_data(data: dict):
+    def _validate_data(data: dict) -> dict:
         try:
             event_model = EventModel(data, strict=False)
             event_model.validate()
@@ -70,41 +74,44 @@ class EventManager(BaseManager):
             raise ERROR_EVENT_PARSE()
 
     @staticmethod
-    def _generate_data(info: dict):
+    def _generate_data(info: dict) -> dict:
         event_key = info['event_key']
         repo_name = info['repo_name']
-        repo_url = info['repo_url']
         tag = info['tag']
-        description = info['description']
+        title = f'New image pushed to {repo_name}:{tag}.'
+        repo_url = info['repo_url']
         namespace = info['namespace']
         occurred_at = info['pushed_at']
-        title = f'New image pushed to {repo_name}.'
+        pusher = info['pusher']
 
         return {
             'event_key': event_key,
             'event_type': 'ALERT',  # ALERT only, docker hub event doesn't have RECOVERY type
             'title': title,
-            'description': description,
+            'description': title,
             'severity': 'INFO',
             'rule': '',
             'resource': {
-                'name': f'{repo_name}:{tag}',
+                'name': f'{repo_name}:{tag}'
             },
             'additional_info': {
-                'namespace':namespace,
-                'url': repo_url
+                'repo_url': repo_url,
+                'namespace': namespace,
+                'repo_name': repo_name,
+                'pusher': pusher,
+                'tag': tag
             },
             'occurred_at': occurred_at
         }
 
     @staticmethod
-    def _get_event_key(repo_name: str):
+    def _get_event_key(repo_name: str, tag: str):
         """
         Generate the Index Key through Hashing
-            {repo_name}
+            {repo_name}:{tag}
         """
 
-        raw_event_key = repo_name
+        raw_event_key = f'{repo_name}:{tag}'
         hash_object = hashlib.md5(raw_event_key.encode())
         md5_hash = hash_object.hexdigest()
 

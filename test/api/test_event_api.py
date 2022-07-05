@@ -12,7 +12,7 @@ class TestEvent(TestCase):
         param = {
             "options": {
             },
-            "data":             {
+            "data": {
               "callback_url": "https://registry.hub.docker.com/u/nigasa12/prs-manager/hook/20a4ccf24e26442fbed482baa234c373/",
               "push_data": {
                 "pusher": "spaceoneadmin",
