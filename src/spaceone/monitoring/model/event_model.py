@@ -1,12 +1,19 @@
 from schematics import Model
-from schematics.types import StringType, ModelType, DateTimeType, DictType
+from schematics.types import StringType, DateTimeType, ModelType
 
 __all__ = ['EventModel']
 
 
-class DockerhubAdditionalInfo(Model):
-    version = StringType()
-    repository = StringType()
+class ResourceModel(Model):
+    name = StringType(serialize_when_none=False)
+
+
+class AdditionalInfoModel(Model):
+    repo_url = StringType(serialize_when_none=False)
+    repo_name = StringType(serialize_when_none=False)
+    namespace = StringType(serialize_when_none=False)
+    tag = StringType(serialize_when_none=False)
+    pusher = StringType(serialize_when_none=False)
 
 
 class EventModel(Model):
@@ -15,9 +22,7 @@ class EventModel(Model):
     title = StringType(required=True)
     description = StringType(default='')
     severity = StringType(choices=['CRITICAL', 'ERROR', 'WARNING', 'INFO', 'NOT_AVAILABLE'], default=None)
-    resource = DictType(StringType, default={})
     rule = StringType(default='')
-    occurred_at = DateTimeType()
-    provider = StringType(default='aws')
-    account = StringType(default='')
-    additional_info = ModelType(DockerhubAdditionalInfo)
+    resource = ModelType(ResourceModel)
+    additional_info = ModelType(AdditionalInfoModel)
+    occurred_at = DateTimeType() # pushed_at from docker

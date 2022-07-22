@@ -15,3 +15,6 @@ class ERROR_GET_JSON_MESSAGE(ERROR_BASE):
 
 class ERROR_NOT_DECISION_MANAGER(ERROR_BASE):
     _message = 'The received data type is a data type that is not currently supported.'
+
+class ERROR_EVENT_PARSE(ERROR_BASE):
+    _message = 'Fail to parse the event'
