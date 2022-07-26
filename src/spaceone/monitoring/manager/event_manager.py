@@ -78,7 +78,7 @@ class EventManager(BaseManager):
         event_key = info['event_key']
         repo_name = info['repo_name']
         tag = info['tag']
-        title = f'New image pushed to {repo_name}:{tag}.'
+        title = f'New image tag({tag}) has been pushed to {repo_name}'
         repo_url = info['repo_url']
         namespace = info['namespace']
         occurred_at = info['pushed_at']
