@@ -23,5 +23,3 @@ Find us also at [Dockerhub](https://github.com/spaceone-dev/plugin-dockerhub-mon
 Please contact us if you need any further information. (support@spaceone.dev)
 
 ---
-
-## Release note
